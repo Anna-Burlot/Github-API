@@ -17,7 +17,7 @@ const App = () => {
   const [newSearchValue, setNewSearchValue] = useState("");
   return (
     <Container className="app">
-      <SearchBar />
+      <SearchBar value={newSearchValue} changeValue={setNewSearchValue} />
       <Message reposNumber={repos.total_count} />
       <RepoResults repos={repos.items} />
     </Container>
