@@ -7,13 +7,13 @@ import PropTypes from "prop-types";
 // == Import
 
 // == Composant
-const SearchBar = ({ value, changeValue }) => {
+const SearchBar = ({ value, changeValue, fetchReposFromSearch }) => {
   const handleInputChange = event => {
     changeValue(event.target.value);
   };
   const handleFormSubmit = event => {
     event.preventDefault();
-    console.log("search " + value);
+    fetchReposFromSearch(value);
   };
   return (
     <Segment>
@@ -26,7 +26,8 @@ const SearchBar = ({ value, changeValue }) => {
 
 SearchBar.propTypes = {
   value: PropTypes.string.isRequired,
-  changeValue: PropTypes.func.isRequired
+  changeValue: PropTypes.func.isRequired,
+  fetchReposFromSearch: PropTypes.func.isRequired
 };
 
 // == Export
