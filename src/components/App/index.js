@@ -16,26 +16,16 @@ import githubLogo from "src/assets/images/logo-github.png";
 const App = () => {
   const [repos, setRepos] = useState();
   const [newSearchValue, setNewSearchValue] = useState("");
-
-  const fetchReactRepos = () => {
-    axios
-      .get("https://api.github.com/search/repositories?q=react")
-      .then(response => {
-        // handle success
-        setRepos(response.data);
-      })
-      .catch(error => {
-        // handle error
-        console.log("error", error);
-      });
-  };
+  const [loading, setLoading] = useState(false);
 
   const fetchReposFromSearch = search => {
+    setLoading(true);
     const request = `https://api.github.com/search/repositories?q=${search}`;
     axios
       .get(request)
       .then(response => {
         // handle success
+        setLoading(false);
         setRepos(response.data);
       })
       .catch(error => {
@@ -43,10 +33,6 @@ const App = () => {
         console.log("error", error);
       });
   };
-
-  useEffect(() => {
-    fetchReactRepos();
-  }, []);
 
   return (
     <Container className="app">
@@ -56,18 +42,19 @@ const App = () => {
         changeValue={setNewSearchValue}
         fetchReposFromSearch={fetchReposFromSearch}
       />
-      {!repos === true && (
+      {!repos === true && <Message reposNumber={0} beforeSearch />}
+      {loading === true && (
         <ReactLoading
           className="loading"
           type="spin"
-          color="red"
+          color="#1d1b1b"
           height={50}
           width={50}
         />
       )}
       {!repos === false && (
         <div>
-          <Message reposNumber={repos.total_count} />
+          <Message reposNumber={repos.total_count} beforeSearch={false} />
           <RepoResults repos={repos.items} />
         </div>
       )}

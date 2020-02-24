@@ -7,14 +7,18 @@ import PropTypes from "prop-types";
 // == Import
 
 // == Composant
-const Message = ({ reposNumber }) => {
+const Message = ({ reposNumber, beforeSearch }) => {
   let message = "";
-  if (reposNumber === 0) {
-    message = "La recherche n'a donné aucun résultat";
-  } else if (reposNumber === 1) {
-    message = `La recherche a donné ${reposNumber} résultat`;
+  if (!beforeSearch) {
+    if (reposNumber === 0) {
+      message = "La recherche n'a donné aucun résultat";
+    } else if (reposNumber === 1) {
+      message = `La recherche a donné ${reposNumber} résultat`;
+    } else {
+      message = `La recherche a donné ${reposNumber} résultats`;
+    }
   } else {
-    message = `La recherche a donné ${reposNumber} résultats`;
+    message = "Cherchez vos premiers repos github !";
   }
   return (
     <Segment className="message">
@@ -24,7 +28,8 @@ const Message = ({ reposNumber }) => {
 };
 
 Message.propTypes = {
-  reposNumber: PropTypes.number.isRequired
+  reposNumber: PropTypes.number.isRequired,
+  beforeSearch: PropTypes.bool.isRequired
 };
 
 // == Export
